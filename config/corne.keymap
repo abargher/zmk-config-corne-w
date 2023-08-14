@@ -7,6 +7,24 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
+#include <dt-binding/zmk/mouse.h>
+
+// Layer definitions
+#define DEFAULT 0
+#define LOWER   1
+#define RAISE   2
+#define ADJUST  3
+
+/ {
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+        tri_layer {
+            if-layers = <LOWER RAISE>;
+            then-layer = <ADJUST>;
+        };
+    };
+};
+
 
 / {
         keymap {
@@ -27,15 +45,15 @@
                 };
                 lower_layer {
 // -----------------------------------------------------------------------------------------
-// |  TAB |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  | BKSP |
-// |      | BT1 | BT2 | BT3 | BT4 | BT5 |   | LFT | DWN |  UP | RGT |     |      |
-// | SHFT |     |     |     |BTCLR|     |   |     |     |     |     |     |      |
+// |  TAB |  1  |  2    |  3   |  4   |  5    |   |  6  |  7  |  8  |  9  |   0   | BKSP |
+// |      |     | M_LFT | M_UP | M_DN | M_RGT |   | LFT | DWN |  UP | RGT | PG_UP |      |
+// | SHFT |     |       | RCLK | LCLK | MCLK  |   |     |     |     |     | PG_DN |      |
 //                    | GUI |     | SPC |   | ENT |     | ALT |
                         bindings = <
-   &kp TAB    &kp N1       &kp N2       &kp N3       &kp N4       &kp N5         &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp BSPC
-   &trans     &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4   &kp LEFT &kp DOWN &kp UP &kp RIGHT &trans &trans
-   &kp LSHFT  &trans       &trans       &trans       &bt BT_CLR       &trans     &trans   &trans   &trans &trans    &trans &trans
-                                    &kp LGUI     &trans       &kp SPACE      &kp RET  &trans   &kp RALT
+   &kp TAB    &kp N1  &kp N2         &kp N3       &kp N4         &kp N5               &kp N6   &kp N7   &kp N8 &kp N9    &kp N0    &kp BSPC
+   &trans     &trans  &mmv MOVE_LEFT &mmv MOVE_UP &mmv MOVE_DOWN &mmv MOVE_RIGHT      &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp PG_UP &trans
+   &kp LSHFT  &trans  &trans         &mkp RCLK    &mkp LCLK      &mkp MCLK            &trans   &trans   &trans &trans    &kp PG_DN &trans
+                           &kp LGUI   &trans  &kp SPACE   &kp RET  &trans   &kp RALT
                         >;
                 };
 
@@ -50,6 +68,35 @@
    &kp LCTRL &trans   &trans &trans   &trans   &trans      &kp MINUS &kp EQUAL &kp LBKT        &kp RBKT &kp BSLH &kp GRAVE
    &kp LSHFT &trans   &trans &trans   &trans   &trans      &kp UNDER &kp PLUS  &kp LBRC        &kp RBRC &kp PIPE &kp TILDE
                              &kp LGUI &trans   &kp SPACE   &kp RET   &trans    &kp RALT
+                        >;
+                };
+
+                adjust_layer {
+// -----------------------------------------------------------------------------------------
+// |  F1  |   F2   | F3  | F4  | F5  | F6  |   | F7  |   F8   |   F9   | F10 | F11 |  F12 |
+// | CTRL |   BT1  | BT2 | BT3 | BT4 | BT5 |   | PRV | VOL_DN | VOL_UP | NXT |     |      |
+// | SHFT | BT_CLR | RST |     |     |     |   |     |  MUTE  |        |     |     |      |
+//                       | GUI |     | SPC |   | ENT |     | ALT |
+                        bindings = <
+   &kp F1    &kp F2       &kp F3       &kp F4       &kp F5       &kp F6            &kp F7     &kp F8       &kp F9       &kp F10    &kp F11  &kp F12
+   &kp LCTRL &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4      &kp C_PREV &kp C_VOL_DN &kp C_VOL_UP &kp C_NEXT &trans   &trans  
+   &kp LSHFT &bt BT_CLR   &tog 4       &trans       &trans       &trans            &trans     &kp C_MUTE   &trans       &trans     &trans   &trans  
+                                       &kp LGUI     &trans       &kp SPACE         &kp RET   &trans    &kp RALT
+                        >;
+                };
+
+                reset_layer {
+// -----------------------------------------------------------------------------------------
+// | BTLDR |    |    |    |    | RESET |      | RESET |    |    |    |    | BTLDR |
+// |       |    |    |    |    |       |      |       |    |    |    |    |       |
+// |       |    |    |    |    |       |      |       |    |    |    |    |       |
+// |       |    |    |    |    |       |      |       |    |    |    |    |       |
+//                    | GUI | BASE | SPC |   | ENT | BASE | ALT |
+                        bindings = <
+   &bootloader  &none  &none  &none  &none  &sys_reset    &sys_reset  &none  &none  &none  &none  &bootloader  
+   &none  &none  &none  &none  &none  &none         &none  &none  &none  &none  &none  &none  
+   &none  &none  &none  &none  &none  &none         &none  &none  &none  &none  &none  &none  
+              &kp LGUI  &to DEFAULT  &kp SPACE         &kp RET  &to DEFAULT  &kp RALT
                         >;
                 };
         };
