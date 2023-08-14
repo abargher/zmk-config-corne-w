@@ -45,14 +45,14 @@
                 };
                 lower_layer {
 // -----------------------------------------------------------------------------------------
-// |  TAB |  1  |  2    |  3   |  4   |  5    |   |  6  |  7  |  8  |  9  |   0   | BKSP |
-// |      |     | M_LFT | M_UP | M_DN | M_RGT |   | LFT | DWN |  UP | RGT | PG_UP |      |
-// | SHFT |     |       | RCLK | LCLK | MCLK  |   |     |     |     |     | PG_DN |      |
+// |  TAB |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |   0   | BKSP |
+// |      |     |     |     |     |     |   | LFT | DWN |  UP | RGT | PG_UP |      |
+// | SHFT |     |     |     |     |     |   |     |     |     |     | PG_DN |      |
 //                    | GUI |     | SPC |   | ENT |     | ALT |
                         bindings = <
-   &kp TAB    &kp N1  &kp N2         &kp N3       &kp N4         &kp N5               &kp N6   &kp N7   &kp N8 &kp N9    &kp N0    &kp BSPC
-   &trans     &trans  &mmv MOVE_LEFT &mmv MOVE_UP &mmv MOVE_DOWN &mmv MOVE_RIGHT      &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp PG_UP &trans
-   &kp LSHFT  &trans  &trans         &mkp RCLK    &mkp LCLK      &mkp MCLK            &trans   &trans   &trans &trans    &kp PG_DN &trans
+   &kp TAB    &kp N1  &kp N2  &kp N3  &kp N4  &kp N5         &kp N6   &kp N7   &kp N8 &kp N9    &kp N0    &kp BSPC
+   &trans     &trans  &trans  &trans  &trans  &trans         &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp PG_UP &trans
+   &kp LSHFT  &trans  &trans  &trans  &trans  &trans         &trans   &trans   &trans &trans    &kp PG_DN &trans
                            &kp LGUI   &trans  &kp SPACE   &kp RET  &trans   &kp RALT
                         >;
                 };
